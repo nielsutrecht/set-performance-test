@@ -1,0 +1,4 @@
+package com.nibado.fastcollections.generated;
+public class IntLookupBenchmark_BenchmarkState_jmhType extends IntLookupBenchmark_BenchmarkState_jmhType_B3 {
+}
+
