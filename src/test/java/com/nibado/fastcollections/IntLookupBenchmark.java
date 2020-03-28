@@ -9,10 +9,7 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.openjdk.jmh.runner.options.TimeValue;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class IntLookupBenchmark {
 
@@ -21,19 +18,15 @@ public class IntLookupBenchmark {
         @Param({"10", "100", "1000"})
         public int size;
 
-        //@Param({"javaStringHashSet", "javaHashSet", "arrayList", "array", "arrayBS"})
-        @Param({"javaHashSet", "hppcHashSet", "hppcScatterSet"})
+        @Param({"javaStringHashSet", "javaHashSet", "arrayList", "array", "arrayBS", "hppcHashSet", "hppcScatterSet"})
+        //@Param({"javaHashSet", "hppcHashSet", "hppcScatterSet"})
         public String implementation;
 
-        private List<Integer> testList;
-
         public IntLookup intLookup;
-        public List<Integer> needles = Arrays.stream(BenchmarkData.NEEDLES).mapToObj(i -> i).collect(Collectors.toList());
-        public int needle = BenchmarkData.NEEDLES[0];
 
         @Setup(Level.Trial)
         public void setUp() {
-            testList = BenchmarkData.randomIntList(size);
+            var testList = BenchmarkData.randomIntList(size);
             intLookup = IntLookup.get(implementation, testList);
         }
     }
@@ -47,14 +40,15 @@ public class IntLookupBenchmark {
     }
 
     public static void main(final String[] args) throws RunnerException {
-        var iterationTime = TimeValue.seconds(2);
+        var iterationTime = TimeValue.seconds(5);
 
         final Options opt = new OptionsBuilder()
                 .include(".*" + IntLookupBenchmark.class.getSimpleName() + ".*")
                 .forks(1)
+                .threads(8)
                 .mode(Mode.Throughput)
                 .warmupIterations(2)
-                .measurementIterations(2)
+                .measurementIterations(3)
                 .warmupTime(iterationTime)
                 .measurementTime(iterationTime)
                 .build();

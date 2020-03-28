@@ -42,14 +42,15 @@ public class StringLookupBenchmark {
     }
 
     public static void main(final String[] args) throws RunnerException {
-        var iterationTime = TimeValue.seconds(2);
+        var iterationTime = TimeValue.seconds(5);
 
         final Options opt = new OptionsBuilder()
                 .include(".*" + StringLookupBenchmark.class.getSimpleName() + ".*")
                 .forks(1)
+                .threads(8)
                 .mode(Mode.Throughput)
                 .warmupIterations(2)
-                .measurementIterations(2)
+                .measurementIterations(3)
                 .warmupTime(iterationTime)
                 .measurementTime(iterationTime)
                 .build();
