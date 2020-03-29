@@ -15,11 +15,13 @@ public class IntLookupBenchmark {
 
     @State(Scope.Benchmark)
     public static class BenchmarkState {
-        @Param({"10", "100", "1000"})
+        @Param({"1", "10", "100", "1000"})
         public int size;
 
-        @Param({"javaStringHashSet", "javaHashSet", "arrayList", "array", "arrayBS", "hppcHashSet", "hppcScatterSet"})
+        //@Param({"equals", "javaStringHashSet", "javaHashSet", "arrayList", "array", "arrayBS", "hppcHashSet", "hppcScatterSet"})
         //@Param({"javaHashSet", "hppcHashSet", "hppcScatterSet"})
+        //@Param({"hppcHashSet", "hppcScatterSet", "troveHashSet", "fuHashSetDef", "fuHashSetVF", "fuHashSetF"})
+        @Param({"javaHashSetDef", "javaHashSetVF", "hppcHashSetDef", "hppcHashSetVF", "fuHashSetDef", "fuHashSetVF"})
         public String implementation;
 
         public IntLookup intLookup;
@@ -40,7 +42,7 @@ public class IntLookupBenchmark {
     }
 
     public static void main(final String[] args) throws RunnerException {
-        var iterationTime = TimeValue.seconds(5);
+        var iterationTime = TimeValue.seconds(2);
 
         final Options opt = new OptionsBuilder()
                 .include(".*" + IntLookupBenchmark.class.getSimpleName() + ".*")

@@ -49,8 +49,8 @@ public class StringLookupBenchmark {
                 .forks(1)
                 .threads(8)
                 .mode(Mode.Throughput)
-                .warmupIterations(2)
-                .measurementIterations(3)
+                .warmupIterations(3)
+                .measurementIterations(5)
                 .warmupTime(iterationTime)
                 .measurementTime(iterationTime)
                 .build();

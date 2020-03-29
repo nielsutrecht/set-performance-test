@@ -9,8 +9,9 @@ import java.util.Set;
 public class HashSetIntLookup implements IntLookup {
     private final Set<Integer> set;
 
-    public HashSetIntLookup(List<Integer> data) {
-        set = new HashSet<>(data);
+    public HashSetIntLookup(List<Integer> data, float loadFactor) {
+        set = new HashSet<>(data.size(), loadFactor);
+        set.addAll(data);
     }
 
     @Override

@@ -30,7 +30,7 @@ Performance tests for different set implementations
     
 ### String lookup
 
-    Benchmark                           (implementation)   Mode  Cnt      Score       Error   Units
-    StringLookupBenchmark.stringLookup       javaHashSet  thrpt    3  64907.092 ± 12301.768  ops/ms
-    StringLookupBenchmark.stringLookup       hppcHashSet  thrpt    3  76363.575 ± 24658.875  ops/ms
-    StringLookupBenchmark.stringLookup    hppcScatterSet  thrpt    3  91196.694 ± 49639.777  ops/ms
+    Benchmark                           (implementation)   Mode  Cnt      Score      Error   Units
+    StringLookupBenchmark.stringLookup       javaHashSet  thrpt    5  63296.442 ± 5291.635  ops/ms
+    StringLookupBenchmark.stringLookup       hppcHashSet  thrpt    5  75777.846 ± 4259.538  ops/ms
+    StringLookupBenchmark.stringLookup    hppcScatterSet  thrpt    5  93485.772 ± 1942.056  ops/ms
