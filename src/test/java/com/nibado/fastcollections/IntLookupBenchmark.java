@@ -15,21 +15,18 @@ public class IntLookupBenchmark {
 
     @State(Scope.Benchmark)
     public static class BenchmarkState {
-        @Param({"1", "10", "100", "1000"})
-        public int size;
-
-        //@Param({"equals", "javaStringHashSet", "javaHashSet", "arrayList", "array", "arrayBS", "hppcHashSet", "hppcScatterSet"})
-        //@Param({"javaHashSet", "hppcHashSet", "hppcScatterSet"})
-        //@Param({"hppcHashSet", "hppcScatterSet", "troveHashSet", "fuHashSetDef", "fuHashSetVF", "fuHashSetF"})
-        @Param({"javaHashSetDef", "javaHashSetVF", "hppcHashSetDef", "hppcHashSetVF", "fuHashSetDef", "fuHashSetVF"})
-        public String implementation;
+        @Param({"equals,,1", "arrayList,,1", "arrayList,,10", "arrayList,,100", "arrayList,,1000", "array,,1", "array,,10", "array,,100", "array,,1000", "arrayBS,,1", "arrayBS,,10", "arrayBS,,100", "arrayBS,,1000", "javaHashSet,0.75,1", "javaHashSet,0.75,10", "javaHashSet,0.75,100", "javaHashSet,0.75,1000", "javaHashSet,0.5,1", "javaHashSet,0.5,10", "javaHashSet,0.5,100", "javaHashSet,0.5,1000", "javaHashSet,0.25,1", "javaHashSet,0.25,10", "javaHashSet,0.25,100", "javaHashSet,0.25,1000", "hppcHashSet,0.75,1", "hppcHashSet,0.75,10", "hppcHashSet,0.75,100", "hppcHashSet,0.75,1000", "hppcHashSet,0.5,1", "hppcHashSet,0.5,10", "hppcHashSet,0.5,100", "hppcHashSet,0.5,1000", "hppcHashSet,0.25,1", "hppcHashSet,0.25,10", "hppcHashSet,0.25,100", "hppcHashSet,0.25,1000", "hppcScatterSet,0.75,1", "hppcScatterSet,0.75,10", "hppcScatterSet,0.75,100", "hppcScatterSet,0.75,1000", "hppcScatterSet,0.5,1", "hppcScatterSet,0.5,10", "hppcScatterSet,0.5,100", "hppcScatterSet,0.5,1000", "hppcScatterSet,0.25,1", "hppcScatterSet,0.25,10", "hppcScatterSet,0.25,100", "hppcScatterSet,0.25,1000", "troveHashSet,0.75,1", "troveHashSet,0.75,10", "troveHashSet,0.75,100", "troveHashSet,0.75,1000", "troveHashSet,0.5,1", "troveHashSet,0.5,10", "troveHashSet,0.5,100", "troveHashSet,0.5,1000", "troveHashSet,0.25,1", "troveHashSet,0.25,10", "troveHashSet,0.25,100", "troveHashSet,0.25,1000", "fuHashSet,0.75,1", "fuHashSet,0.75,10", "fuHashSet,0.75,100", "fuHashSet,0.75,1000", "fuHashSet,0.5,1", "fuHashSet,0.5,10", "fuHashSet,0.5,100", "fuHashSet,0.5,1000", "fuHashSet,0.25,1", "fuHashSet,0.25,10", "fuHashSet,0.25,100", "fuHashSet,0.25,1000"})
+        public String variant;
 
         public IntLookup intLookup;
 
         @Setup(Level.Trial)
         public void setUp() {
-            var testList = BenchmarkData.randomIntList(size);
-            intLookup = IntLookup.get(implementation, testList);
+            var v = variant.split(",");
+
+            var testList = BenchmarkData.randomIntList(Integer.parseInt(v[2]));
+            var loadFactor = "".equals(v[1]) ? 0.0f : Float.parseFloat(v[1]);
+            intLookup = IntLookup.get(v[0], testList, loadFactor);
         }
     }
 
@@ -49,8 +46,8 @@ public class IntLookupBenchmark {
                 .forks(1)
                 .threads(8)
                 .mode(Mode.Throughput)
-                .warmupIterations(2)
-                .measurementIterations(3)
+                .warmupIterations(3)
+                .measurementIterations(5)
                 .warmupTime(iterationTime)
                 .measurementTime(iterationTime)
                 .build();

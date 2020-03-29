@@ -8,8 +8,8 @@ import java.util.List;
 public class HppcScatterSetIntLookup implements IntLookup {
     private final IntScatterSet set;
 
-    public HppcScatterSetIntLookup(List<Integer> data) {
-        set = new IntScatterSet(data.size());
+    public HppcScatterSetIntLookup(List<Integer> data, float loadFactor) {
+        set = new IntScatterSet(data.size(), loadFactor);
         data.forEach(set::add);
     }
 

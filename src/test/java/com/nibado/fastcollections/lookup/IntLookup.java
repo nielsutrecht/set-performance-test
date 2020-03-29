@@ -9,23 +9,14 @@ import com.nibado.fastcollections.lookup.trove.TroveHashSetIntLookup;
 import java.util.List;
 
 public interface IntLookup {
-    float LOAD_DEFAULT = 0.75f;
-    float LOAD_FAST = 0.5f;
-    float LOAD_VERY_FAST = 0.25f;
-
     boolean contains(int value);
 
-    static IntLookup get(String implementation, List<Integer> list) {
+    static IntLookup get(String implementation, List<Integer> list, float loadFactor) {
         switch (implementation) {
             case "javaStringHashSet":
-                return new StringHashSetIntLookup(list);
-
-            case "javaHashSetDef":
-                return new HashSetIntLookup(list, LOAD_DEFAULT);
-            case "javaHashSetF":
-                return new HashSetIntLookup(list, LOAD_FAST);
-            case "javaHashSetVF":
-                return new HashSetIntLookup(list, LOAD_VERY_FAST);
+                return new StringHashSetIntLookup(list, loadFactor);
+            case "javaHashSet":
+                return new HashSetIntLookup(list, loadFactor);
             case "arrayList":
                 return new ArrayListIntLookup(list);
             case "array":
@@ -35,28 +26,16 @@ public interface IntLookup {
             case "equals":
                 return new EqualsIntLookup(list);
 
-            case "hppcHashSetDef" :
-                return new HppcHashSetIntLookup(list, LOAD_DEFAULT);
-            case "hppcHashSetF" :
-                return new HppcHashSetIntLookup(list, LOAD_FAST);
-            case "hppcHashSetVF" :
-                return new HppcHashSetIntLookup(list, LOAD_VERY_FAST);
+            case "hppcHashSet" :
+                return new HppcHashSetIntLookup(list, loadFactor);
             case "hppcScatterSet" :
-                return new HppcScatterSetIntLookup(list);
+                return new HppcScatterSetIntLookup(list, loadFactor);
 
-            case "troveHashSetDef" :
-                return new TroveHashSetIntLookup(list, LOAD_DEFAULT);
-            case "troveHashSetF" :
-                return new TroveHashSetIntLookup(list, LOAD_FAST);
-            case "troveHashSetVF" :
-                return new TroveHashSetIntLookup(list, LOAD_VERY_FAST);
+            case "troveHashSet" :
+                return new TroveHashSetIntLookup(list, loadFactor);
 
-            case "fuHashSetDef" :
-                return new FastUtilHashSetIntLookup(list, LOAD_DEFAULT);
-            case "fuHashSetF" :
-                return new FastUtilHashSetIntLookup(list, LOAD_FAST);
-            case "fuHashSetVF" :
-                return new FastUtilHashSetIntLookup(list, LOAD_VERY_FAST);
+            case "fuHashSet" :
+                return new FastUtilHashSetIntLookup(list, loadFactor);
 
             default:
                 throw new IllegalArgumentException("Unknown implementation: " + implementation);
